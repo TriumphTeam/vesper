@@ -1,0 +1,55 @@
+[versions]
+# kotlin
+kotlin = "2.0.21"
+serialization = "1.7.1"
+coroutines = "1.6.4"
+
+# Core
+annotations = "24.1.0"
+guava = "33.2.0-jre"
+logger = "2.0.13"
+
+# Triumph
+triumph-nebula = "0.0.15"
+triumph-commands = "2.0.0-ALPHA-10"
+triumph-gui = "4.0.0-SNAPSHOT"
+
+# Minecraft
+paper = "1.21.1-R0.1-SNAPSHOT"
+
+# Build
+run-paper = "2.3.1"
+resource-factory = "1.2.0"
+shadow = "8.3.3"
+
+[libraries]
+# Core
+logger = { module = "org.slf4j:slf4j-api", version.ref = "logger" }
+
+# Triumph
+triumph-nebula = { module = "dev.triumphteam:nebula-paper", version.ref = "triumph-nebula" }
+triumph-commands = { module = "dev.triumphteam:triumph-cmd-bukkit", version.ref = "triumph-commands" }
+triumph-gui = { module = "dev.triumphteam:triumph-gui-paper-kotlin", version.ref = "triumph-gui" }
+
+# Minecraft
+paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
+
+# Kotlin
+serialization-hocon = { module = "org.jetbrains.kotlinx:kotlinx-serialization-hocon", version.ref = "serialization" }
+coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+
+# Build
+build-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+build-run-paper = { module = "xyz.jpenilla:run-task", version.ref = "run-paper" }
+build-resource-factory = { module = "xyz.jpenilla:resource-factory", version.ref = "resource-factory" }
+build-shadow = { module = "com.gradleup.shadow:shadow-gradle-plugin", version.ref = "shadow" }
+build-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+
+[bundles]
+build = [
+    "build-kotlin",
+    "build-serialization",
+    "build-run-paper",
+    "build-resource-factory",
+    "build-shadow",
+]
