@@ -1,5 +1,3 @@
-import xyz.jpenilla.resourcefactory.bukkit.BukkitPluginYaml
-
 plugins {
     id("vesper.base")
 }
@@ -9,7 +7,7 @@ dependencies {
 
     implementation(libs.triumph.gui)
     implementation(libs.triumph.nebula)
-    implementation(libs.triumph.commands)
+    implementation(libs.bundles.triumph.commands)
 
     implementation(libs.serialization.hocon)
 }
@@ -17,11 +15,5 @@ dependencies {
 tasks {
     runServer {
         minecraftVersion("1.21.1")
-    }
-
-    bukkitPluginYaml {
-        main.set("dev.triumphteam.vesper.Vesper")
-        load = BukkitPluginYaml.PluginLoadOrder.STARTUP
-        apiVersion = "1.21"
     }
 }

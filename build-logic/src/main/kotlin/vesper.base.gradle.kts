@@ -5,9 +5,9 @@ val libs = the<LibrariesForLibs>()
 
 plugins {
     kotlin("jvm")
+    kotlin("plugin.serialization")
     id("dev.triumphteam.root")
     id("xyz.jpenilla.run-paper")
-    id("xyz.jpenilla.resource-factory-bukkit-convention")
     id("com.gradleup.shadow")
 }
 
@@ -22,4 +22,11 @@ dependencies {
 
 kotlin {
     explicitApi()
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }

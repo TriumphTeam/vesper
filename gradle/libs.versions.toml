@@ -29,6 +29,8 @@ logger = { module = "org.slf4j:slf4j-api", version.ref = "logger" }
 # Triumph
 triumph-nebula = { module = "dev.triumphteam:nebula-paper", version.ref = "triumph-nebula" }
 triumph-commands = { module = "dev.triumphteam:triumph-cmd-bukkit", version.ref = "triumph-commands" }
+triumph-commands-coroutines = { module = "dev.triumphteam:triumph-cmd-kotlin-coroutines", version.ref = "triumph-commands" }
+triumph-commands-extensions = { module = "dev.triumphteam:triumph-cmd-kotlin-extensions", version.ref = "triumph-commands" }
 triumph-gui = { module = "dev.triumphteam:triumph-gui-paper-kotlin", version.ref = "triumph-gui" }
 
 # Minecraft
@@ -41,7 +43,6 @@ coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version
 # Build
 build-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 build-run-paper = { module = "xyz.jpenilla:run-task", version.ref = "run-paper" }
-build-resource-factory = { module = "xyz.jpenilla:resource-factory", version.ref = "resource-factory" }
 build-shadow = { module = "com.gradleup.shadow:shadow-gradle-plugin", version.ref = "shadow" }
 build-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 
@@ -50,6 +51,11 @@ build = [
     "build-kotlin",
     "build-serialization",
     "build-run-paper",
-    "build-resource-factory",
     "build-shadow",
+]
+
+triumph-commands = [
+    "triumph-commands",
+    "triumph-commands-coroutines",
+    "triumph-commands-extensions"
 ]

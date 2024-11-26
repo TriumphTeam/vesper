@@ -1,0 +1,5 @@
+main: "dev.triumphteam.vesper.Vesper"
+name: "Vesper"
+author: "LichtHund"
+version: "1.0.0"
+apiVersion: "1.21"
