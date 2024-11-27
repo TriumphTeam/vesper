@@ -1,3 +1,4 @@
+import dev.triumphteam.root.KotlinOpt
 import org.gradle.accessors.dm.LibrariesForLibs
 
 // Hack which exposes `libs` to this convention plugin
@@ -20,13 +21,14 @@ dependencies {
     compileOnly(libs.paper)
 }
 
-kotlin {
-    explicitApi()
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }
-}
-
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+}
+
+root {
+    configureKotlin {
+        explicitApi()
+        jvmVersion(21)
+        optIn(KotlinOpt.ALL)
+    }
 }

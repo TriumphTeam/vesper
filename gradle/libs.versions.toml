@@ -5,9 +5,7 @@ serialization = "1.7.1"
 coroutines = "1.6.4"
 
 # Core
-annotations = "24.1.0"
-guava = "33.2.0-jre"
-logger = "2.0.13"
+watcher = "0.18.0"
 
 # Triumph
 triumph-nebula = "0.0.15"
@@ -24,7 +22,7 @@ shadow = "8.3.3"
 
 [libraries]
 # Core
-logger = { module = "org.slf4j:slf4j-api", version.ref = "logger" }
+watcher = { module = "io.methvin:directory-watcher", version.ref = "watcher" }
 
 # Triumph
 triumph-nebula = { module = "dev.triumphteam:nebula-paper", version.ref = "triumph-nebula" }

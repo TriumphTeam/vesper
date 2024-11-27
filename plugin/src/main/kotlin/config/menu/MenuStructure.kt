@@ -1,26 +1,25 @@
 package dev.triumphteam.vesper.config.menu
 
-import dev.triumphteam.gui.kotlin.slot
+import dev.triumphteam.gui.item.GuiItem
+import dev.triumphteam.gui.layout.BorderGuiLayout
+import dev.triumphteam.gui.layout.GuiLayout
+import dev.triumphteam.gui.paper.builder.item.ItemBuilder
 import dev.triumphteam.gui.paper.container.type.ChestContainerType
 import dev.triumphteam.gui.paper.container.type.PaperContainerType
 import dev.triumphteam.gui.slot.Slot
-import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
+import net.kyori.adventure.text.Component
 import org.bukkit.Material
+import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
 @Serializable
 public data class MenuConfig(
-    public val title: String,
+    @Contextual public val title: Component,
     public val container: MenuContainer,
-    public val components: List<MenuComponent>,
+    public val elements: List<MenuElement>,
 )
 
 @Serializable
@@ -37,58 +36,52 @@ public sealed interface MenuContainer {
 }
 
 @Serializable
-public sealed interface MenuComponent {
-
-    @Serializable
-    @SerialName("simple")
-    public data class Simple(
-        public val elements: List<MenuElement>,
-    ) : MenuComponent
-}
-
-@Serializable
 public sealed interface MenuElement {
 
-    public val slot: Slot
-
     @Serializable
     @SerialName("simple")
     public data class Simple(
-        @Serializable(with = SlotSerializer::class) override val slot: Slot,
-        @Serializable(with = MaterialSerializer::class) val material: Material,
+        @Contextual public val slot: Slot,
+        public val item: MenuItem,
+    ) : MenuElement
+
+    @Serializable
+    @SerialName("filler")
+    public data class Filler(
+        public val layout: MenuLayout,
+        public val item: MenuItem,
     ) : MenuElement
 }
 
-public object MaterialSerializer : KSerializer<Material> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Material", PrimitiveKind.STRING)
+@Serializable
+public sealed interface MenuLayout {
 
-    override fun serialize(encoder: Encoder, value: Material) {
-        encoder.encodeString(value.name.lowercase())
-    }
+    public fun asGuiLayout(): GuiLayout
 
-    override fun deserialize(decoder: Decoder): Material {
-        val material = decoder.decodeString()
-        return requireNotNull(Material.matchMaterial(material)) {
-            "Material $material not found."
-        }
+    @Serializable
+    @SerialName("border")
+    public data class Border(
+        @Contextual public val min: Slot,
+        @Contextual public val max: Slot,
+    ) : MenuLayout {
+
+        override fun asGuiLayout(): GuiLayout = BorderGuiLayout(min, max)
     }
 }
 
-public object SlotSerializer : KSerializer<Slot> {
+@Serializable
+public data class MenuItem(
+    @Contextual public val material: Material,
+    @Contextual public val name: Component? = null,
+    public val lore: List<@Contextual Component> = emptyList(),
+) {
 
-    private val INT_LIST_SERIALIZER = ListSerializer(Int.serializer())
+    public fun asGuiItem(): GuiItem<Player, ItemStack> {
+        val builder = ItemBuilder.from(material)
 
-    override val descriptor: SerialDescriptor = INT_LIST_SERIALIZER.descriptor
+        name?.let { builder.name(it) }
+        builder.lore(lore)
 
-    override fun serialize(encoder: Encoder, value: Slot) {
-        encoder.encodeSerializableValue(INT_LIST_SERIALIZER, listOf(value.row, value.column))
-    }
-
-    override fun deserialize(decoder: Decoder): Slot {
-        val list = decoder.decodeSerializableValue(INT_LIST_SERIALIZER)
-        require(list.size >= 2) {
-            "Invalid Slot format!"
-        }
-        return slot(list[0], list[1])
+        return builder.asGuiItem()
     }
 }

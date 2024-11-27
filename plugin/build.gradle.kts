@@ -10,6 +10,8 @@ dependencies {
     implementation(libs.bundles.triumph.commands)
 
     implementation(libs.serialization.hocon)
+
+    implementation(libs.watcher)
 }
 
 tasks {
